@@ -2,15 +2,21 @@
 using System.Collections;
 
 public class DestroyedByContact : MonoBehaviour {
-    public GameObject explosion;
+    public GameObject meteorExplosion;
+	public GameObject playerExplosion;
    
     void OnTriggerEnter(Collider other) {
-        if (other.tag=="Shot"){
-            Transform explosionLocation;
-            explosionLocation = gameObject.transform;
-            Instantiate(explosion, explosionLocation.position, explosionLocation.rotation);
-            Destroy(other.gameObject);
-            Destroy(gameObject);
-        }
+		Transform explosionLocation;
+
+		if (other.tag == "Boundary") {
+			return;
+		}
+        explosionLocation = gameObject.transform;
+        Instantiate(meteorExplosion, explosionLocation.position, explosionLocation.rotation);
+		if (other.tag == "Player") {
+			Instantiate (playerExplosion, other.transform.position, other.transform.rotation);
+		}
+        Destroy(other.gameObject);
+        Destroy(gameObject);
     }
 }
